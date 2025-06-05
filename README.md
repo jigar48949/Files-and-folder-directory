@@ -120,6 +120,23 @@ The application is organized into tabs for different functionalities:
 * **Undo Limitations:** The undo feature is basic and might not perfectly reverse all operations, especially if files or directories have been modified externally after the operation.
 * **Performance:** Operations on very large numbers of files or deep directory structures might take time. The UI should remain responsive due to threading, and progress is usually indicated.
 * **File Paths with Special Characters:** While `pathlib` handles many cases, extremely unusual characters in file or directory names might cause issues with parsing or file operations.
+* **ModuleNotFoundError: No module named '_signal':** This error indicates a corrupted or incomplete Python installation. To resolve this:
+    1. **Create a New Virtual Environment:**
+       ```bash
+       python -m venv fresh_env
+       source fresh_env/bin/activate  # On Unix/macOS
+       # OR
+       fresh_env\Scripts\activate     # On Windows
+       ```
+    2. **If the error persists, reinstall Python:**
+       * Uninstall your current Python installation
+       * Download a fresh copy from [python.org](https://python.org)
+       * During installation, ensure "Add Python to PATH" is checked
+       * After installation, verify with `python --version`
+    3. **Install project dependencies in the new environment:**
+       ```bash
+       pip install -r requirements.txt
+       ```
 
 ## Potential Future Enhancements
 
