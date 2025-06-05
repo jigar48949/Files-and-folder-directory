@@ -4,149 +4,157 @@
 
 The Directory Tool is a Python-based desktop application built with Tkinter and `ttkthemes` designed to help users define, create, manage, and organize directory structures and files. It provides a graphical user interface for several file and directory operations, including batch creation, quick file moving, smart organization based on a defined skeleton, and packaging into ZIP archives.
 
+## Installation
+
+1. **Install Python:**
+   - Download Python 3.8 or higher from [python.org](https://python.org)
+   - During installation, ensure "Add Python to PATH" is checked
+   - Verify installation: `python --version`
+
+2. **Set up Virtual Environment (Recommended):**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Unix/macOS
+   # OR
+   venv\Scripts\activate     # On Windows
+   ```
+
+3. **Install Dependencies:**
+   ```bash
+   pip install .
+   ```
+
 ## Features
 
-* **Define & Create Structure (Tab 1):**
-    * Visually define complex directory and file structures using an indented text format.
-    * Support for comments in structure definitions.
-    * Preview the structure before creation.
-    * Create the defined directory structure and empty placeholder files in a chosen base directory.
-    * Load sample structures and clear definitions.
-* **Quick Move Files (Tab 2):**
-    * Select multiple files or entire folders (recursively) to be moved.
-    * Display selected files with path, size, and type in a tree view.
-    * Move selected files to a specified target directory, with automatic renaming for conflicts.
-* **Smart Organize & Package (Tab 3):**
-    * **File Staging Area:** Add individual files or folders to a temporary staging list.
-    * **Source Pool:** Load a larger collection of source files for matching.
-    * **Target Structure Definition:** Define the desired output structure (similar to Tab 1).
-    * **Skeleton Tree:** Build a visual representation of the target structure.
-    * **Manual Assignment:** Assign files from the staging area to specific file slots in the skeleton tree.
-    * **Auto-Assignment:**
-        * Automatically match files from the staging area to empty slots in the skeleton based on name similarity (using fuzzy matching).
-        * Automatically match files from the general source pool to empty slots.
-    * **File Mapping View:** Displays target paths, assigned source files, and their status (Missing, Auto-Matched, Assigned).
-    * **Organize Files:** Copy or move assigned source files into the defined target structure within a chosen base directory.
-    * **Download Package as Zip:** Create a ZIP archive of the organized files, maintaining the defined structure.
-* **Manage Templates (Tab 4):**
-    * Save frequently used directory structure definitions as named templates.
-    * Load saved templates into Tab 1 for creation or Tab 3 for organization.
-    * Delete and refresh templates.
-    * Import/Export templates as JSON files.
-* **General Features:**
-    * **Undo Last Operation:** Basic undo functionality for some operations like structure creation and file moves (experimental).
-    * **Operation History:** View a log of performed operations.
-    * **Theming:** Toggle between light (default "radiance") and dark ("equilux") themes.
-    * **Directory Statistics:** Calculate and display the number of files, folders, and total size for a selected directory.
-    * **Cleanup Empty Folders:** Recursively remove empty subfolders within a selected directory.
-    * **Persistent Configuration:** Saves theme preference and last used directory.
-    * **Logging:** Detailed logging of operations and errors to `logs/directory_tool.log`.
-    * **Threaded Operations:** Long-running tasks (creation, moving, zipping, etc.) are performed in separate threads to keep the UI responsive, with progress updates and cancellation support.
+### Define & Create Structure (Tab 1)
+- Visually define complex directory and file structures using an indented text format
+- Support for comments in structure definitions
+- Preview the structure before creation
+- Create the defined directory structure and empty placeholder files
+- Load sample structures and clear definitions
 
-## Requirements
+### Quick Move Files (Tab 2)
+- Select multiple files or entire folders (recursively) to be moved
+- Display selected files with path, size, and type in a tree view
+- Move selected files to a specified target directory
+- Automatic conflict resolution with smart renaming
 
-* Python 3.x
-* Tkinter (usually included with standard Python installations)
-* `ttkthemes`: For enhanced Tkinter widget styling. Install using pip:
-    ```bash
-    pip install ttkthemes
-    ```
-* `thefuzz` (and `python-Levenshtein` for better performance, optional but recommended): For fuzzy string matching. Install using pip:
-    ```bash
-    pip install thefuzz python-Levenshtein
-    ```
+### Smart Organize & Package (Tab 3)
+- **File Management:**
+  - File Staging Area for individual files/folders
+  - Source Pool for larger file collections
+  - Target Structure Definition
+  - Visual Skeleton Tree representation
+- **File Assignment:**
+  - Manual assignment to specific slots
+  - Automatic matching using fuzzy logic
+  - Status tracking (Missing, Auto-Matched, Assigned)
+- **Output Options:**
+  - Organize files into target structure
+  - Create ZIP archives preserving structure
 
-## How to Run
+### Manage Templates (Tab 4)
+- Save and load directory structure templates
+- Import/Export templates as JSON
+- Template management and organization
 
-1.  **Ensure Dependencies:** Make sure Python 3 is installed and the required libraries (`ttkthemes`, `thefuzz`) are installed in your Python environment.
-2.  **Save the Script:** Save the Python code as a `.py` file (e.g., `directory_tool.py`).
-3.  **Run from Terminal/IDE:** Execute the script from your terminal or IDE:
-    ```bash
-    python directory_tool.py
-    ```
-    The application window should appear.
+## Application Structure
 
-## Application Directory Structure
-
-When you run the script, it will create the following subdirectories in the same location as the script file if they don't already exist:
-
-* `data/`: Stores application data.
-    * `config.json`: Stores user preferences like theme and last opened directory.
-    * `history.json`: Logs major operations for the undo feature and history view.
-    * `templates.json`: Stores user-defined structure templates.
-    * `temp_pkg_<timestamp>/` (Temporary): Created during the "Download Package as Zip" operation and deleted afterwards.
-* `logs/`:
-    * `directory_tool.log`: Contains detailed logs of application activity and errors.
+```
+directory_tool/
+├── data/
+│   ├── config.json       # User preferences
+│   ├── history.json      # Operation history
+│   ├── templates.json    # Structure templates
+│   └── temp_pkg_*/       # Temporary packaging
+├── logs/
+│   └── directory_tool.log
+```
 
 ## Configuration
 
-* **Theme:** The application supports a light (default "radiance") and a dark ("equilux") theme, which can be toggled via the "View" menu or `Ctrl+D`. The selected theme is saved in `data/config.json`.
-* **Last Directory:** The last successfully selected base directory is saved and reloaded on the next launch.
+### Theme Settings
+- Light theme (default): "radiance"
+- Dark theme: "equilux"
+- Toggle: View menu or Ctrl+D
+- Settings saved in data/config.json
 
-## Basic Usage
+### Directory Preferences
+- Last used directory saved automatically
+- Configurable default locations
+- Per-template base paths
 
-The application is organized into tabs for different functionalities:
+## Troubleshooting
 
-1.  **Tab 1: Define & Create Structure**
-    * Type or paste your desired directory structure into the text area. Use indentation for sub-items and a trailing `/` for directories.
-    * Select a "Base Directory for Creation".
-    * Click "Create Structure Now" or "Preview Structure".
+### Common Issues
 
-2.  **Tab 2: Quick Move Files**
-    * Use "Select Files" or "Select Folder of Files" to populate the list.
-    * Select a "Target Directory for Moving Files".
-    * Click "Move Selected Files".
+#### ModuleNotFoundError: No module named '_signal'
+This error indicates a corrupted Python installation. To resolve:
 
-3.  **Tab 3: Smart Organize & Package**
-    * **Define Target Structure:** Enter the desired final structure in the "Target Structure Definition" text area (or load from Tab 1/Sample).
-    * **Build Skeleton:** Click "Build/Rebuild Skeleton Tree". This populates the "File Mapping & Status" tree.
-    * **Load Files:**
-        * Use "Add Files/Folder to Stage" for files you want to specifically assign.
-        * Use "Load Source Pool" for a general collection of files to be auto-matched.
-    * **Assign Files:**
-        * Manually: Select a file in "Staging Area" and a target in "File Mapping" tree, then click "Assign Staged to Target(s) →". Or right-click a target in the mapping tree to browse.
-        * Automatically: Use "Auto-Assign from Stage" or "Auto-Match from Pool".
-    * **Organize/Package:**
-        * Select a "Base Directory for Organizing/Packaging".
-        * Click "Organize Assigned Files" (choose copy/move) or "Download Package as Zip".
+1. **Create Fresh Virtual Environment:**
+   ```bash
+   python -m venv fresh_env
+   source fresh_env/bin/activate  # Unix/macOS
+   # OR
+   fresh_env\Scripts\activate     # Windows
+   ```
 
-4.  **Tab 4: Manage Templates**
-    * View, load, save, and delete structure templates.
-    * Import/Export templates to share or back them up.
+2. **If Error Persists:**
+   - Uninstall current Python installation
+   - Download fresh copy from [python.org](https://python.org)
+   - Enable "Add Python to PATH" during installation
+   - Verify: `python --version`
 
-## Known Issues / Troubleshooting
+3. **Install Dependencies:**
+   ```bash
+   pip install .
+   ```
 
-* **PanedWindow Options:** Some Tkinter/ttk versions or themes might not support all `PanedWindow` styling options like `sashrelief` or `sashwidth`. The script has been adjusted to use only common options. If you encounter TclErrors related to PanedWindow options, these might need to be removed from the `ttk.PanedWindow(...)` call in the `create_smart_organize_tab` method.
-* **Undo Limitations:** The undo feature is basic and might not perfectly reverse all operations, especially if files or directories have been modified externally after the operation.
-* **Performance:** Operations on very large numbers of files or deep directory structures might take time. The UI should remain responsive due to threading, and progress is usually indicated.
-* **File Paths with Special Characters:** While `pathlib` handles many cases, extremely unusual characters in file or directory names might cause issues with parsing or file operations.
-* **ModuleNotFoundError: No module named '_signal':** This error indicates a corrupted or incomplete Python installation. To resolve this:
-    1. **Create a New Virtual Environment:**
-       ```bash
-       python -m venv fresh_env
-       source fresh_env/bin/activate  # On Unix/macOS
-       # OR
-       fresh_env\Scripts\activate     # On Windows
-       ```
-    2. **If the error persists, reinstall Python:**
-       * Uninstall your current Python installation
-       * Download a fresh copy from [python.org](https://python.org)
-       * During installation, ensure "Add Python to PATH" is checked
-       * After installation, verify with `python --version`
-    3. **Install project dependencies in the new environment:**
-       ```bash
-       pip install -r requirements.txt
-       ```
+#### Other Known Issues
+- **PanedWindow Styling:** Some themes may not support all styling options
+- **Undo Operations:** Basic implementation with some limitations
+- **Large Operations:** May experience delays with extensive file sets
+- **Special Characters:** Unusual characters in paths may cause issues
 
-## Potential Future Enhancements
+## Performance Optimization
 
-* Full Drag & Drop support for files into Staging Area and Mapping Tree (requires `TkinterDnD2` integration).
-* More advanced conflict resolution options (e.g., skip, rename all, overwrite all).
-* More robust undo for all operations.
-* Ability to define file content for placeholder files during structure creation.
-* Filtering options for file selection and staging.
-* Direct editing of the skeleton tree (e.g., renaming targets).
+### Large Directory Operations
+- Use batch processing for multiple files
+- Enable threading for responsive UI
+- Monitor progress indicators
+- Cancel long-running operations if needed
+
+### Memory Management
+- Regular cleanup of temporary files
+- Efficient handling of large directory trees
+- Smart caching of frequently used templates
+
+## Security Considerations
+
+- File permissions preserved during operations
+- Secure handling of sensitive path information
+- Protected template storage
+- Logging of security-relevant operations
+
+## Development Guidelines
+
+### Contributing
+1. Fork the repository
+2. Create feature branch
+3. Follow code style guidelines
+4. Submit pull request
+
+### Testing
+- Run test suite: `python -m pytest tests/`
+- Add tests for new features
+- Ensure backward compatibility
 
 ## License
 
-This software is provided "as is". You are free to use, modify, and distribute it. (Consider adding a specific open-source license like MIT or GPL if desired).
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Support
+
+- GitHub Issues: [Report bugs](https://github.com/jigar48949/directory-tool/issues)
+- Documentation: [Wiki](https://github.com/jigar48949/directory-tool/wiki)
+- Community: [Discussions](https://github.com/jigar48949/directory-tool/discussions)
