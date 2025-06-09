@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Folder, FileText, Settings, Package, History, Moon, Sun, Sparkles, Zap } from 'lucide-react';
+import { Folder, FileText, Settings, Package, History, Moon, Sun, Sparkles, Zap, Code } from 'lucide-react';
 import StructureTab from './components/StructureTab';
 import MoveFilesTab from './components/MoveFilesTab';
 import OrganizeTab from './components/OrganizeTab';
 import TemplatesTab from './components/TemplatesTab';
 import EnhancedStructureTab from './components/enhanced/EnhancedStructureTab';
 import SmartOrganizeTab from './components/enhanced/SmartOrganizeTab';
+import FileExplorerTab from './components/FileExplorerTab';
 import HistoryDialog from './components/HistoryDialog';
 import AIConfigDialog from './components/AIConfigDialog';
 import { DirectoryProvider } from './context/DirectoryContext';
@@ -13,8 +14,9 @@ import { useFileOperations } from './hooks/useFileOperations';
 import { useAI } from './hooks/useAI';
 
 const tabs = [
-  { id: 'structure', label: 'Define & Create Structure', icon: Folder },
+  { id: 'file-explorer', label: 'File Explorer & Editor', icon: Code },
   { id: 'enhanced-structure', label: 'Enhanced Structure (AI)', icon: Sparkles },
+  { id: 'structure', label: 'Define & Create Structure', icon: Folder },
   { id: 'move', label: 'Quick Move Files', icon: FileText },
   { id: 'organize', label: 'Smart Organize & Package', icon: Package },
   { id: 'smart-organize', label: 'Advanced Smart Organize', icon: Zap },
@@ -22,7 +24,7 @@ const tabs = [
 ];
 
 function AppContent() {
-  const [activeTab, setActiveTab] = useState('enhanced-structure');
+  const [activeTab, setActiveTab] = useState('file-explorer');
   const [darkMode, setDarkMode] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showAIConfig, setShowAIConfig] = useState(false);
@@ -40,6 +42,8 @@ function AppContent() {
 
   const renderTabContent = () => {
     switch (activeTab) {
+      case 'file-explorer':
+        return <FileExplorerTab />;
       case 'structure':
         return <StructureTab />;
       case 'enhanced-structure':
@@ -53,7 +57,7 @@ function AppContent() {
       case 'templates':
         return <TemplatesTab />;
       default:
-        return <EnhancedStructureTab />;
+        return <FileExplorerTab />;
     }
   };
 
@@ -140,7 +144,7 @@ function AppContent() {
       <footer className="bg-white border-t border-gray-200 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center text-sm text-gray-500">
-            <p>© 2025 Directory Tool Pro - AI-Enhanced Directory Management</p>
+            <p>© 2025 Directory Tool Pro - AI-Enhanced Directory Management with Code Editor</p>
             <div className="flex items-center gap-4">
               <span>Operations: {operations.length}</span>
               <span className={`px-2 py-1 rounded text-xs ${
