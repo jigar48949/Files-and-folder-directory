@@ -9,7 +9,7 @@ import SmartOrganizeTab from './components/enhanced/SmartOrganizeTab';
 import FileExplorerTab from './components/FileExplorerTab';
 import HistoryDialog from './components/HistoryDialog';
 import AIConfigDialog from './components/AIConfigDialog';
-import { DirectoryProvider } from './context/DirectoryContext';
+import { DirectoryProvider } from './context/DirectoryContext.tsx';
 import { useFileOperations } from './hooks/useFileOperations';
 import { useAI } from './hooks/useAI';
 
