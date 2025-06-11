@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-outline {
+    @apply border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200;
+  }
+  
+  .textarea {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 resize-none;
+  }
+  
+  .card {
+    @apply bg-white border border-gray-200 rounded-lg shadow-sm;
+  }
+  
+  .tab-active {
+    @apply text-blue-600 bg-blue-50;
+  }
+  
+  .tab-inactive {
+    @apply text-gray-600 hover:text-gray-900 hover:bg-gray-50;
+  }
+  
+  .status-indicator {
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .line-numbers {
+    @apply bg-gray-100 text-gray-500 text-sm font-mono p-3 border-r border-gray-300 select-none;
+  }
+  
+  .code-editor {
+    @apply font-mono text-sm;
+  }
+}
+
+/* Dark mode styles */
+.dark {
+  @apply bg-gray-900 text-gray-100;
+}
+
+.dark .card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.dark .input {
+  @apply bg-gray-800 border-gray-600 text-gray-100;
+}
+
+.dark .textarea {
+  @apply bg-gray-800 border-gray-600 text-gray-100;
+}
+
+.dark .btn-secondary {
+  @apply bg-gray-700 hover:bg-gray-600 text-gray-100;
+}
+
+.dark .btn-outline {
+  @apply border-gray-600 hover:bg-gray-700 text-gray-100;
+}
